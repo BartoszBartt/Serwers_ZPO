@@ -15,10 +15,10 @@ class TooManyProductsFoundError{
 + __init(self, val: float)__
 }
 
-
-class TooManyProductsFoundError{
-}
-class serwer{
+class Server{
++n_max_returned_entries: int
++products_in_list(self): List[Product]
++{abstract} get_entries()
 }
 
 class ListServer{
