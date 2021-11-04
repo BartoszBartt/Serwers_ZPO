@@ -2,24 +2,27 @@
 hide empty members
 
 class Product{
++products: empty
 +id: int 
 +name: char[]
 +price: float
 +__init__(id: int, name: char[], price: float)
-+get_price (price: float): float
-+get_id (id: int): int
 }
 
 class TooManyProductsFoundError{
 +message: string
-+ __init(self, val: float)__
++ __init__(self, val: float)
 }
 
-class serwer{
+
+
+abstract class Serwer{
 +n_max_returned_entries: int
-+products_in_list(self): List[Product]
-+{abstract} get_entries()
++products_in_list(): List[Product]
++get_entries()
++{abstract} get_all_products()
 }
+
 
 class ListServer{
 +n_max_returned_entries: int
@@ -27,25 +30,27 @@ class ListServer{
 +__init__(self, product_list: List[Product])
 +products_in_list(self): List[Product]
 +get_entries(self, n_letters: int): List[Product]
++get_all_products()
 }
 
 class MapServer{
 +n_max_returned_entries: int
++products: Dict{str: Product}
 +__init__(self, product_list: List[Product])
 +products_in_list(self): List[Product]
 +get_entries(self, n_letters: int): List[Product]
++get_all_products()
 }
 
 class Client{
-+server: Server
-+ __init__(self, server: Server)
++ __init__(self, serwer: Serwer)
 + get_total_price(self, n_letters: Optional[int]): float
 }
 
-Client o-- serwer 
+Client o-- Serwer 
 
-serwer <|-- MapServer
-serwer <|-- ListServer 
+Serwer <|-- MapServer
+Serwer <|-- ListServer 
 MapServer  *--  Product  
 ListServer *--  Product 
 MapServer ..> TooManyProductsFoundError
