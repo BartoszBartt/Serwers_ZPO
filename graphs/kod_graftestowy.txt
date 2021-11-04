@@ -1,0 +1,57 @@
+@startuml
+hide empty members
+
+class Product{
++id: int 
++name: char[]
++price: float
++__init__(id: int, name: char[], price: float)
++get_price (price: float): float
++get_id (id: int): int
+}
+
+class TooManyProductsFoundError{
++message: string
++ __init(self, val: float)__
+}
+
+
+class TooManyProductsFoundError{
+}
+class serwer{
+}
+
+class ListServer{
++n_max_returned_entries: int
++products: : List[Product]
++__init__(self, product_list: List[Product])
++products_in_list(self): List[Product]
++get_entries(self, n_letters: int): List[Product]
+}
+
+class MapServer{
++n_max_returned_entries: int
++__init__(self, product_list: List[Product])
++products_in_list(self): List[Product]
++get_entries(self, n_letters: int): List[Product]
+}
+
+class Client{
++server: Server
++ __init__(self, server: Server)
++ get_total_price(self, n_letters: Optional[int]): float
+}
+
+Client o-- serwer 
+
+serwer <|-- MapServer
+serwer <|-- ListServer 
+MapServer  *--  Product  
+ListServer *--  Product 
+MapServer ..> TooManyProductsFoundError
+ListServer ..> TooManyProductsFoundError
+Product <.. TooManyProductsFoundError: <<throws>> 
+
+
+@end uml
+@enduml
