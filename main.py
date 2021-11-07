@@ -12,7 +12,7 @@ class Product:
     products = None
 
     def __init__(self, name: str, price: float):
-        if re.fullmatch('[a-zA-Z]+[0-9]+', name):
+        if re.fullmatch('[a-zA-Z] + [0-9]+', name):
             self.name = name
             self.price = price
             # self.name_char = [i for i in name]
@@ -41,14 +41,20 @@ class TooManyProductsFoundError(ServerError):
 
 
 class Server(ABC):
-
+    len_returned_entries = 3
+    
     @abstractmethod
-    def get_all_products(self):
+    def get_all_products(self, n_letters: int = 1):
         raise NotImplementedError
 
-    def get_entries(self):
-        pass
+    def get_entries(self, n_letters: int = 1):
+        en: List[Product] = self.get_all_products(n_letters=n_letters)
 
+        if not en:
+            return []
+        if len(en) > self.len_returned_entries:
+            raise TooManyProductsFoundError(val=len(en), new_value=self.len_returned_entries)
+        return sorted(en, key=lambda prod_price: prod_price.price)
 
 # FIXME: Każada z poniższych klas serwerów powinna posiadać:
 #   (1) metodę inicjalizacyjną przyjmującą listę obiektów typu `Product` i ustawiającą atrybut `products` zgodnie z typem reprezentacji produktów na danym serwerze,
