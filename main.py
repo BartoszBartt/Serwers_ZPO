@@ -26,13 +26,22 @@ class Product:
         return hash((self.name, self.price))
 
 
-class TooManyProductsFoundError:
-    # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
+class ServerError(Exception):
     pass
+
+class TooManyProductsFoundError(ServerError):
+    # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
+    def __init__(self, val: float, new_value: float):
+        self.val = val
+        self.new_value = new_value
+        self.message = f'There is too many products: {self.val},there should be {self.new_value} products'
+
+    def __str__(self):
+        return self.message
 
 
 class Server(ABC):
-    
+
     @abstractmethod
     def get_all_products(self):
         raise NotImplementedError
@@ -96,18 +105,7 @@ class Client:
     def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
         raise NotImplementedError()
 
-class ServerError(Exception):
-    pass
 
-class TooManyProductsFoundError(ServerError):
-    # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
-    def __init__(self, val: float, new_value: float):
-        self.val = val
-        self.new_value = new_value
-        self.message = f'There is too many products: {self.val},there should be {self.new_value} products'
-
-    def __str__(self):
-        return self.message
 
 # product_1 = Product("KoX", 2.5)
 
