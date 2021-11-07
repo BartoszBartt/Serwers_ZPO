@@ -101,7 +101,7 @@ class TooManyProductsFoundError(ServerError):
     def __init__(self, val: float, new_value: float):
         self.val = val
         self.new_value = new_value
-        self.message = f'Znaleziono za dużo produktów, aż : {self.val}, a powinoo ich być {self.new_value}'
+        self.message = f'There is too many products: {self.val},there should be {self.new_value} products'
 
     def __str__(self):
         return self.message
