@@ -12,12 +12,15 @@ class Product:
     products = None
 
     def __init__(self, name: str, price: float):
-        self.name = name
-        self.price = price
-        # self.name_char = [i for i in name]
+        if re.fullmatch('[a-zA-Z]+[0-9]+', name):
+            self.name = name
+            self.price = price
+            # self.name_char = [i for i in name]
+        else:
+            raise ValueError
 
     def __eq__(self, other):
-        return None  # FIXME: zwróć odpowiednią wartość
+        return self.price == other.price and self.name == other.name  # FIXME: zwróć odpowiednią wartość
 
     def __hash__(self):
         return hash((self.name, self.price))
@@ -29,7 +32,7 @@ class TooManyProductsFoundError:
 
 
 class Server(ABC):
-
+    
     @abstractmethod
     def get_all_products(self):
         raise NotImplementedError
