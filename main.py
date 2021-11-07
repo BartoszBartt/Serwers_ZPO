@@ -93,9 +93,18 @@ class Client:
     def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
         raise NotImplementedError()
 
+class ServerError(Exception):
+    pass
 
+class TooManyProductsFoundError(ServerError):
+    # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
+    def __init__(self, val: float, new_value: float):
+        self.val = val
+        self.new_value = new_value
+        self.message = f'Znaleziono za dużo produktów, aż : {self.val}, a powinoo ich być {self.new_value}'
 
-
+    def __str__(self):
+        return self.message
 
 # product_1 = Product("KoX", 2.5)
 
