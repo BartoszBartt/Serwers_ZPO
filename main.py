@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from typing import Optional, List, Union, TypeVar, Sized, Dict
-from abc import ABC, abstractmethod
 import re
+from abc import ABC, abstractmethod
+from typing import Optional, List, TypeVar, Dict
 
 
 class Product:
@@ -42,7 +42,7 @@ class TooManyProductsFoundError(ServerError):
 
 class Server(ABC):
     len_returned_entries = 3
-    
+
     @abstractmethod
     def get_all_products(self, n_letters: int = 1):
         raise NotImplementedError
@@ -105,7 +105,7 @@ class Client:
 
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
 
-    def __init__(self, Server: HelperType):
+    def __init__(self, server: Server,wrzuctutajcos ,**kwargs):
         self.server = Server
 
     def get_total_price(self, n_letters: Optional[int]) -> Optional[float]:
