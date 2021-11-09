@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ec9648d3-eb3d-4e0b-a3ee-901e4b6f9358" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
+    <list id="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" name="Changes by 48732" comment="">
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/main.py">
+      <ranges>
+        <range start1="17" end1="18" start2="17" end2="17" changelist="ec9648d3-eb3d-4e0b-a3ee-901e4b6f9358" />
+        <range start1="43" end1="44" start2="42" end2="43" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="50" end1="51" start2="49" end2="50" changelist="ec9648d3-eb3d-4e0b-a3ee-901e4b6f9358" />
+        <range start1="52" end1="53" start2="51" end2="52" changelist="ec9648d3-eb3d-4e0b-a3ee-901e4b6f9358" />
+        <range start1="54" end1="57" start2="53" end2="56" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="64" end1="65" start2="63" end2="63" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="79" end1="79" start2="77" end2="78" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="82" end1="83" start2="81" end2="81" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="98" end1="98" start2="96" end2="97" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="106" end1="109" start2="105" end2="107" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="110" end1="112" start2="108" end2="110" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+        <range start1="113" end1="120" start2="111" end2="120" changelist="6676d298-6c4c-4ad3-8ee0-48ebfc252e2f" />
+      </ranges>
+    </file>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Serwers_ZPO" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Serwers_ZPO$main.coverage" NAME="main Coverage Results" MODIFIED="1636463395992" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>
