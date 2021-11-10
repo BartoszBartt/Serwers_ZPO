@@ -40,7 +40,7 @@ class TooManyProductsFoundError(ServerError):
 
 
 class Server(ABC):
-    n_max_returned_entries =
+    n_max_returned_entries = 3
 
     @abstractmethod
     def get_all_products(self, n_letters: int = 1):
@@ -97,11 +97,10 @@ class MapServer(Server):
         return answer
 
 
-HelperType = TypeVar('HelperType', bound=Server)
+HelperType = TypeVar('HelperType', bound = Server)
 
 
 class Client:
-
     # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
     # FIXME albo łączną cenę produktów,
     # FIXME albo None – w przypadku, gdy serwer rzucił wyjątek lub gdy nie znaleziono ani jednego produktu spełniającego kryterium
