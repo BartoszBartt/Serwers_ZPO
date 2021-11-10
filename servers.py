@@ -113,14 +113,14 @@ class Client:
         self.Server: server.n_max_returned_entries
 
     def get_total_price(self, n_letters: int) -> Optional[float]:
-        if len(self.Server.get_entries(n_letters)) == 0:
-            return None
+
         try:
             entries = self.Server.get_entries(n_letters)
         except TooManyProductsFoundError:
             return None
-        else:
-            total_amount = 0
-            for i in entries:
-                total_amount += i.price
+        if len(entries) == 0:
+            return None
+        total_amount = 0
+        for i in entries:
+            total_amount += i.price
         return total_amount
