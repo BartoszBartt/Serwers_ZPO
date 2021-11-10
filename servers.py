@@ -28,6 +28,7 @@ class Product:
 class ServerError(Exception):
     pass
 
+
 class TooManyProductsFoundError(ServerError):
     # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
     def __init__(self, val: float, new_value: float):
@@ -46,14 +47,18 @@ class Server(ABC):
     def get_all_products(self, n_letters: int = 1):
         raise NotImplementedError
 
-    def get_entries(self, n_letters: int = 1):
-        ls: List[Product] = self.get_all_products(n_letters=n_letters)
+    def get_entries(self, n_letters: int = 3):
+        entries = []
+        products_list = self.get_all_products()
+        regex = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
 
-        if not ls:
-            return []
-        if len(ls) > self.n_max_returned_entries:
-            raise TooManyProductsFoundError(val=len(ls), new_value=self.n_max_returned_entries)
-        return sorted(ls, key=lambda prod_price: prod_price.price)
+        for p in products_list:
+            if re.match(regex, p.name):
+                entries.append(p)
+            if len(entries) > self.n_max_returned_entries:
+                raise TooManyProductsFoundError
+        return entries
+
 
 # FIXME: Każada z poniższych klas serwerów powinna posiadać:
 #   (1) metodę inicjalizacyjną przyjmującą listę obiektów typu `Product` i ustawiającą atrybut `products` zgodnie z typem reprezentacji produktów na danym serwerze,
@@ -61,15 +66,13 @@ class Server(ABC):
 #   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
 
 class ListServer(Server):
-
-    def __init__(self, list_of_products: List[Product]):
-        self.list_of_products = list_of_products
-        # NIEPEWNE: nw czy to ma byc Product.products czy moze self.products  czy cos innego ~Luki
-        Product.products = list
+    def __init__(self, products: List[Product], *args, **kwargs):
+        super.__init__(*args, **kwargs)
+        self.products = products
 
     def get_all_products(self, n_letters: int = 1):
         answer = []
-        for i in self.list_of_products:
+        for i in self.products:
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name)
             if valid_item:
                 answer.append(i)
@@ -79,16 +82,15 @@ class ListServer(Server):
 
 
 class MapServer(Server):
-
     # TODO: type hinting dla dicta
-    def __init__(self, dict_of_products: Dict[str, float]):
-        self.dict_of_products = dict_of_products
-        # NIEPEWNE: nw czy to ma byc Product.products czy moze self.products  czy cos innego ~Luki
-        Product.products = dict
+    def __init__(self, products: Dict[str, float], *args, **kwargs):
+        super.__init__(*args, **kwargs)
+        self.products = products
+        # Product.products = dict
 
     def get_all_products(self, n_letters: int = 1):
         answer = []
-        for k, v in self.dict_of_products.items():
+        for k, v in self.products.items():
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', k)
             if valid_item:
                 answer.append(Product(k, v))
@@ -97,7 +99,7 @@ class MapServer(Server):
         return answer
 
 
-HelperType = TypeVar('HelperType', bound = Server)
+HelperType = TypeVar('HelperType', bound=Server)
 
 
 class Client:
@@ -105,15 +107,20 @@ class Client:
     # FIXME albo łączną cenę produktów,
     # FIXME albo None – w przypadku, gdy serwer rzucił wyjątek lub gdy nie znaleziono ani jednego produktu spełniającego kryterium
 
-    def __init__(self, server: Server, *args, **kwargs):
-        self.server = server
+    def __init__(self, server: HelperType, *args, **kwargs):
+        super.__init__(*args, **kwargs)
+        self.Server: server = server
+        self.Server: server.n_max_returned_entries
 
     def get_total_price(self, n_letters: int) -> Optional[float]:
-        total_amount = 0
-        if len(self.server.get_entries()) == 0 or  :
+        if len(self.Server.get_entries(n_letters)) == 0:
+            return None
+        try:
+            entries = self.Server.get_entries(n_letters)
+        except TooManyProductsFoundError:
             return None
         else:
-            for i in self.server.get_entries( ):
+            total_amount = 0
+            for i in entries:
                 total_amount += i.price
         return total_amount
-        # raise NotImplementedError()
