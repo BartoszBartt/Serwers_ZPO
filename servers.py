@@ -72,7 +72,7 @@ class Server(ABC):
 
 class ListServer(Server):
     def __init__(self, products: List[Product], *args, **kwargs):
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.products = products
 
     def get_all_products(self, n_letters: int = 1):
@@ -89,7 +89,7 @@ class ListServer(Server):
 class MapServer(Server):
     # TODO: type hinting dla dicta
     def __init__(self, products: Dict[str, float], *args, **kwargs):
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.products = products
         # Product.products = dict
 
