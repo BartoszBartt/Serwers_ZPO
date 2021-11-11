@@ -12,7 +12,7 @@ class Product:
     products = None
 
     def __init__(self, name: str, price: float):
-        if re.fullmatch('[a-zA-Z] + [0-9]+', name):
+        if re.fullmatch('(?=.*?[0-9])(?=.*?[A-Za-z]).+', name):
             self.name = name
             self.price = price
         else:
@@ -47,11 +47,16 @@ class Server(ABC):
     def get_all_products(self, n_letters: int = 1):
         raise NotImplementedError
 
-    def get_entries(self, n_letters: int = 3):
-        entries = []
-        products_list = self.get_all_products()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def get_entries(self, n_letters: int = 1):
+        # raise NotImplementedError
+        products_list = self.get_all_products(n_letters)
+
         regex = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
 
+        entries = []
         for p in products_list:
             if re.match(regex, p.name):
                 entries.append(p)
@@ -108,7 +113,7 @@ class Client:
     # FIXME albo None – w przypadku, gdy serwer rzucił wyjątek lub gdy nie znaleziono ani jednego produktu spełniającego kryterium
 
     def __init__(self, server: HelperType, *args, **kwargs):
-        super.__init__(*args, **kwargs)
+        # super.__init__(*args, **kwargs)
         self.Server: server = server
         self.Server: server.n_max_returned_entries
 
@@ -124,3 +129,18 @@ class Client:
         for i in entries:
             total_amount += i.price
         return total_amount
+
+
+# prd_3 = Product("xxasd02", 20.4)
+# print(prd_3.name)
+# prd_3 = Product("x2@", 20.4)
+# print(prd_3.name)
+# prd_3 = Product("a", 20.4)
+# print(prd_3.name)
+# prd_3 = Product("2", 20.4)
+# print(prd_3.name)
+# prd_3 = Product("asd2%%%", 20.4)
+# print(prd_3.name)
+products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
+entries = Server.get_entries(2)
+# print(entries)
