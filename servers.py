@@ -61,8 +61,9 @@ class Server(ABC):
             if re.match(regex, p.name):
                 entries.append(p)
             if len(entries) > self.n_max_returned_entries:
-                raise TooManyProductsFoundError
-        return entries
+                raise TooManyProductsFoundError(val=len(entries), new_value=self.n_max_returned_entries)
+        #return entries
+        return sorted(entries, key=lambda price_of_product: price_of_product.price)
 
 
 # FIXME: Każada z poniższych klas serwerów powinna posiadać:
@@ -126,8 +127,8 @@ class Client:
         if len(entries) == 0:
             return None
         total_amount = 0
-        for i in entries:
-            total_amount += i.price
+        for elem in entries:
+            total_amount += elem.price
         return total_amount
 
 
