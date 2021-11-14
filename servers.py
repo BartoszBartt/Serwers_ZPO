@@ -50,11 +50,11 @@ class Server(ABC):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_entries(self, n_letters: int = 1):
+    def get_entries(self, n_letters: int = 3):
+        # raise NotImplementedError
         products_list = self.get_all_products(n_letters)
-
         regex = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
-
+        # super(get_all_products())
         entries = []
         for p in products_list:
             if re.match(regex, p.name):
@@ -75,10 +75,13 @@ class ListServer(Server):
         super().__init__(*args, **kwargs)
         self.products = products
 
-    def get_all_products(self, n_letters: int = 1):
+    def get_all_products(self, n_letters: int = 3):
         answer = []
         for i in self.products:
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name)
+            print(i.name)
+            print(re.fullmatch(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name))
+
             if valid_item:
                 answer.append(i)
             # if len(answer) > self.n_max_returned_entries:
@@ -116,7 +119,6 @@ class Client:
         self.Server: server.n_max_returned_entries
 
     def get_total_price(self, n_letters: int) -> Optional[float]:
-
         try:
             entries = self.Server.get_entries(n_letters)
         except TooManyProductsFoundError:
