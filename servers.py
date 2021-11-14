@@ -81,8 +81,8 @@ class ListServer(Server):
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name)
             if valid_item:
                 answer.append(i)
-            if len(answer) > self.n_max_returned_entries:
-                raise TooManyProductsFoundError(val=len(answer), new_value=self.n_max_returned_entries)
+            # if len(answer) > self.n_max_returned_entries:
+            #     pass
         return answer
 
 
@@ -98,8 +98,8 @@ class MapServer(Server):
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', prod_name)
             if valid_item:
                 answer.append(self.products[prod_name])
-            if len(answer) > self.n_max_returned_entries:
-                pass
+            # if len(answer) > self.n_max_returned_entries:
+            #     pass
         return answer
 
 
