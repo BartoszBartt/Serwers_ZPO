@@ -129,17 +129,3 @@ class Client:
         for elem in entries:
             total_amount += elem.price
         return total_amount
-
-# prd_3 = Product("xxasd02", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("x2@", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("a", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("2", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("asd2%%%", 20.4)
-# print(prd_3.name)
-# products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
-# entries = Server.get_entries(2)
-# # print(entries)
