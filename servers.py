@@ -62,7 +62,7 @@ class Server(ABC):
                 entries.append(p)
             if len(entries) > self.n_max_returned_entries:
                 raise TooManyProductsFoundError(val=len(entries), new_value=self.n_max_returned_entries)
-        #return entries
+        # return entries
         return sorted(entries, key=lambda price_of_product: price_of_product.price)
 
 
@@ -89,17 +89,16 @@ class ListServer(Server):
 
 class MapServer(Server):
     # TODO: type hinting dla dicta
-    def __init__(self, products: Dict[str, float], *args, **kwargs):
+    def __init__(self, products: List[Product], *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.products = products
-        # Product.products = dict
+        self.products: Dict[str, Product] = {product.name: product for product in products}
 
-    def get_all_products(self, n_letters: int = 1):
+    def get_all_products(self, n_letters: int = 1) -> List[Product]:
         answer = []
-        for k, v in self.products.items():
-            valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', k)
+        for prod_name in self.products:
+            valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', prod_name)
             if valid_item:
-                answer.append(Product(k, v))
+                answer.append(self.products[prod_name])
             if len(answer) > self.n_max_returned_entries:
                 pass
         return answer
@@ -131,7 +130,6 @@ class Client:
             total_amount += elem.price
         return total_amount
 
-
 # prd_3 = Product("xxasd02", 20.4)
 # print(prd_3.name)
 # prd_3 = Product("x2@", 20.4)
@@ -142,6 +140,6 @@ class Client:
 # print(prd_3.name)
 # prd_3 = Product("asd2%%%", 20.4)
 # print(prd_3.name)
-products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
-entries = Server.get_entries(2)
-# print(entries)
+# products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
+# entries = Server.get_entries(2)
+# # print(entries)
