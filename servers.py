@@ -74,8 +74,8 @@ class ListServer(Server):
 
             if valid_item:
                 answer.append(i)
-            if len(answer) > self.n_max_returned_entries:
-                raise TooManyProductsFoundError(val=len(answer), new_value=self.n_max_returned_entries)
+            # if len(answer) > self.n_max_returned_entries:
+            #     pass
         return answer
 
 
