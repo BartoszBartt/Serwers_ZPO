@@ -51,7 +51,6 @@ class Server(ABC):
         super().__init__(*args, **kwargs)
 
     def get_entries(self, n_letters: int = 1):
-        # raise NotImplementedError
         products_list = self.get_all_products(n_letters)
 
         regex = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
@@ -62,7 +61,7 @@ class Server(ABC):
                 entries.append(p)
             if len(entries) > self.n_max_returned_entries:
                 raise TooManyProductsFoundError(val=len(entries), new_value=self.n_max_returned_entries)
-        # return entries
+        # return entries #tuaj są nieposortowana lista
         return sorted(entries, key=lambda price_of_product: price_of_product.price)
 
 
@@ -112,8 +111,7 @@ class Client:
     # FIXME albo łączną cenę produktów,
     # FIXME albo None – w przypadku, gdy serwer rzucił wyjątek lub gdy nie znaleziono ani jednego produktu spełniającego kryterium
 
-    def __init__(self, server: HelperType, *args, **kwargs):
-        # super.__init__(*args, **kwargs)
+    def __init__(self, server: HelperType):
         self.Server: server = server
         self.Server: server.n_max_returned_entries
 
