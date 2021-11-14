@@ -16,13 +16,14 @@ class ServerTest(unittest.TestCase):
             self.assertEqual(Counter([products[2], products[1]]), Counter(entries))
 
 
-# class ClientTest(unittest.TestCase):
-#     def test_total_price_for_normal_execution(self):
-#         products = [Product('PP234', 2), Product('PP235', 3)]
-#         for server_type in server_types:
-#             server = server_type(products)
-#             client = Client(server)
-#             self.assertEqual(5, client.get_total_price(2))
+class ClientTest(unittest.TestCase):
+    def test_total_price_for_normal_execution(self):
+        products = [Product('PP234', 2), Product('PP235', 3)]
+        for server_type in server_types:
+            server = server_type(products)
+            client = Client(server)
+            self.assertEqual(5, client.get_total_price(2))
+
 
 
 if __name__ == '__main__':
