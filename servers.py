@@ -69,13 +69,9 @@ class ListServer(Server):
         answer = []
         for i in self.products:
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name)
-            print(i.name)
-            print(re.fullmatch(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name))
 
             if valid_item:
                 answer.append(i)
-            # if len(answer) > self.n_max_returned_entries:
-            #     pass
         return answer
 
 
@@ -114,10 +110,3 @@ class Client:
         for elem in entries:
             total_amount += elem.price
         return total_amount
-
-
-#
-# products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1),Product('PW234', 2) ]
-# server = ListServer(products)
-# entries = server.get_entries(2)
-# print(entries)

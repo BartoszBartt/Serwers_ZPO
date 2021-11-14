@@ -24,6 +24,7 @@ class ClientTest(unittest.TestCase):
             client = Client(server)
             self.assertEqual(5, client.get_total_price(2))
 
+
 class MaxProduct(unittest.TestCase):
     def test_max_found_products_error(self):
         products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1), Product('PW234', 5)]
@@ -31,6 +32,14 @@ class MaxProduct(unittest.TestCase):
             server = server_type(products)
             self.assertRaises(TooManyProductsFoundError, server.get_entries, 2)
 
+
+class SortList(unittest.TestCase):
+    def test_total_sorted_products(self):
+        products = [Product('P12', 1), Product('PP234', 3), Product('PP235', 2)]
+        sorted_list = [Product('PP235', 2), Product('PP234', 3)]
+        for server_type in server_types:
+            server = server_type(products)
+            self.assertEqual(sorted_list, server.get_entries(2))
 
 
 if __name__ == '__main__':
