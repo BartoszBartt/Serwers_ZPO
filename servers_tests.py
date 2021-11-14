@@ -1,7 +1,7 @@
 import unittest
 from collections import Counter
 
-from servers import ListServer, Product, Client, MapServer, TooManyProductsFoundError
+from servers import Server, ListServer, Product, Client, MapServer, TooManyProductsFoundError
 
 server_types = (ListServer, MapServer)
 
@@ -41,6 +41,22 @@ class SortList(unittest.TestCase):
             server = server_type(products)
             self.assertEqual(sorted_list, server.get_entries(2))
 
+
+class TestExceptionAndNoMatchingProducts(unittest.TestCase):
+    def test_price_if_exception_raised_or_no_products_matching_criteria(self):
+        products_exception = [Product('PP234', 2)] * (Server.n_max_returned_entries + 1)
+        products_not_matching = [Product('A234', 2)] * Server.n_max_returned_entries
+        for server_type in server_types:
+            server = server_type(products_exception)
+            client = Client(server)
+            self.assertEqual(None, client.get_total_price(2))
+        # server = ListServer(products_exception)
+        # client = Client(server)
+        # self.assertEqual(None, client.get_total_price(2))
+        for server_type in server_types:
+            server = server_type(products_not_matching)
+            client = Client(server)
+            self.assertEqual(None, client.get_total_price(2))
 
 if __name__ == '__main__':
     unittest.main()
