@@ -1,16 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 import re
 from abc import ABC, abstractmethod
 from typing import Optional, List, TypeVar, Dict
 
 
 class Product:
-    # TODO: zweryfikowac warunek na nazwe(1 litera/ 1 cyfra) // warunek na unikalna reprezentacje tego samego produktu
-    # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą argumenty wyrażające nazwę produktu (typu str) i jego cenę (typu float) -- w takiej kolejności -- i ustawiającą atrybuty `name` (typu str) oraz `price` (typu float)
-    products = None
-
     def __init__(self, name: str, price: float):
         if re.fullmatch('(?=.*?[0-9])(?=.*?[A-Za-z]).+', name):
             self.name = name
@@ -41,7 +36,7 @@ class TooManyProductsFoundError(ServerError):
 
 
 class Server(ABC):
-    n_max_returned_entries = 3
+    n_max_returned_entries = 2
 
     @abstractmethod
     def get_all_products(self, n_letters: int = 1):
@@ -65,11 +60,6 @@ class Server(ABC):
         return sorted(entries, key=lambda price_of_product: price_of_product.price)
 
 
-# FIXME: Każada z poniższych klas serwerów powinna posiadać:
-#   (1) metodę inicjalizacyjną przyjmującą listę obiektów typu `Product` i ustawiającą atrybut `products` zgodnie z typem reprezentacji produktów na danym serwerze,
-#   (2) możliwość odwołania się do atrybutu klasowego `n_max_returned_entries` (typu int) wyrażający maksymalną dopuszczalną liczbę wyników wyszukiwania,
-#   (3) możliwość odwołania się do metody `get_entries(self, n_letters)` zwracającą listę produktów spełniających kryterium wyszukiwania
-
 class ListServer(Server):
     def __init__(self, products: List[Product], *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -90,7 +80,6 @@ class ListServer(Server):
 
 
 class MapServer(Server):
-    # TODO: type hinting dla dicta
     def __init__(self, products: List[Product], *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.products: Dict[str, Product] = {product.name: product for product in products}
@@ -102,7 +91,7 @@ class MapServer(Server):
             if valid_item:
                 answer.append(self.products[prod_name])
             if len(answer) > self.n_max_returned_entries:
-                pass
+                raise TooManyProductsFoundError(val=len(answer), new_value=self.n_max_returned_entries)
         return answer
 
 
@@ -110,10 +99,6 @@ HelperType = TypeVar('HelperType', bound=Server)
 
 
 class Client:
-    # FIXME: klasa powinna posiadać metodę inicjalizacyjną przyjmującą obiekt reprezentujący serwer
-    # FIXME albo łączną cenę produktów,
-    # FIXME albo None – w przypadku, gdy serwer rzucił wyjątek lub gdy nie znaleziono ani jednego produktu spełniającego kryterium
-
     def __init__(self, server: HelperType):
         self.Server: server = server
         self.Server: server.n_max_returned_entries
@@ -129,3 +114,10 @@ class Client:
         for elem in entries:
             total_amount += elem.price
         return total_amount
+
+
+#
+# products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1),Product('PW234', 2) ]
+# server = ListServer(products)
+# entries = server.get_entries(2)
+# print(entries)
