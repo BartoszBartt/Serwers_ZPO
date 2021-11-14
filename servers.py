@@ -60,8 +60,9 @@ class Server(ABC):
             if re.match(regex, p.name):
                 entries.append(p)
             if len(entries) > self.n_max_returned_entries:
-                raise TooManyProductsFoundError
-        return entries
+                raise TooManyProductsFoundError(val=len(entries), new_value=self.n_max_returned_entries)
+        # return entries #tuaj są nieposortowana lista
+        return sorted(entries, key=lambda price_of_product: price_of_product.price)
 
 
 # FIXME: Każada z poniższych klas serwerów powinna posiadać:
@@ -84,31 +85,22 @@ class ListServer(Server):
             if valid_item:
                 answer.append(i)
             if len(answer) > self.n_max_returned_entries:
-                pass
+                raise TooManyProductsFoundError(val=len(answer), new_value=self.n_max_returned_entries)
         return answer
 
 
 class MapServer(Server):
-    def __init__(self, products: Dict[str, float], *args, **kwargs):
+    # TODO: type hinting dla dicta
+    def __init__(self, products: List[Product], *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.products = products
-        # Product.products = dict
+        self.products: Dict[str, Product] = {product.name: product for product in products}
 
-    def get_all_products(self, n_letters: int = 3):
+    def get_all_products(self, n_letters: int = 1) -> List[Product]:
         answer = []
-        if type(self.products) is list:
-            names = []
-            prices = []
-            for i in range(0, len(self.products)):
-                print(i)
-                names.append(self.products[i].name)
-                prices.append(self.products[i].price)
-            self.products = dict(zip(names, prices))
-
-        for k, v in self.products.items():
-            valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', k)
+        for prod_name in self.products:
+            valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', prod_name)
             if valid_item:
-                answer.append(Product(k, v))
+                answer.append(self.products[prod_name])
             if len(answer) > self.n_max_returned_entries:
                 pass
         return answer
@@ -122,8 +114,7 @@ class Client:
     # FIXME albo łączną cenę produktów,
     # FIXME albo None – w przypadku, gdy serwer rzucił wyjątek lub gdy nie znaleziono ani jednego produktu spełniającego kryterium
 
-    def __init__(self, server: HelperType, *args, **kwargs):
-        # super.__init__(*args, **kwargs)
+    def __init__(self, server: HelperType):
         self.Server: server = server
         self.Server: server.n_max_returned_entries
 
@@ -135,13 +126,6 @@ class Client:
         if len(entries) == 0:
             return None
         total_amount = 0
-        for i in entries:
-            total_amount += i.price
+        for elem in entries:
+            total_amount += elem.price
         return total_amount
-
-
-products = [Product('P12', 1), Product('PP23', 2), Product('PP235', 1)]
-# print(ListServer(products).get_all_products(2))
-# print(products[1], products[2])
-serwer = MapServer(products)
-print(serwer.get_all_products(2))
