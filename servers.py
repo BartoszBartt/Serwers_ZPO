@@ -50,12 +50,11 @@ class Server(ABC):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def get_entries(self, n_letters: int = 1):
+    def get_entries(self, n_letters: int = 3):
         # raise NotImplementedError
         products_list = self.get_all_products(n_letters)
-
         regex = r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$'
-
+        # super(get_all_products())
         entries = []
         for p in products_list:
             if re.match(regex, p.name):
@@ -72,13 +71,16 @@ class Server(ABC):
 
 class ListServer(Server):
     def __init__(self, products: List[Product], *args, **kwargs):
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.products = products
 
-    def get_all_products(self, n_letters: int = 1):
+    def get_all_products(self, n_letters: int = 3):
         answer = []
         for i in self.products:
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name)
+            print(i.name)
+            print(re.fullmatch(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', i.name))
+
             if valid_item:
                 answer.append(i)
             if len(answer) > self.n_max_returned_entries:
@@ -87,14 +89,22 @@ class ListServer(Server):
 
 
 class MapServer(Server):
-    # TODO: type hinting dla dicta
     def __init__(self, products: Dict[str, float], *args, **kwargs):
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.products = products
         # Product.products = dict
 
-    def get_all_products(self, n_letters: int = 1):
+    def get_all_products(self, n_letters: int = 3):
         answer = []
+        if type(self.products) is list:
+            names = []
+            prices = []
+            for i in range(0, len(self.products)):
+                print(i)
+                names.append(self.products[i].name)
+                prices.append(self.products[i].price)
+            self.products = dict(zip(names, prices))
+
         for k, v in self.products.items():
             valid_item = re.search(r'^[a-zA-Z]{' + str(n_letters) + r'}\d{2,3}$', k)
             if valid_item:
@@ -118,7 +128,6 @@ class Client:
         self.Server: server.n_max_returned_entries
 
     def get_total_price(self, n_letters: int) -> Optional[float]:
-
         try:
             entries = self.Server.get_entries(n_letters)
         except TooManyProductsFoundError:
@@ -131,16 +140,8 @@ class Client:
         return total_amount
 
 
-# prd_3 = Product("xxasd02", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("x2@", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("a", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("2", 20.4)
-# print(prd_3.name)
-# prd_3 = Product("asd2%%%", 20.4)
-# print(prd_3.name)
-products = [Product('P12', 1), Product('PP234', 2), Product('PP235', 1)]
-entries = Server.get_entries(2)
-# print(entries)
+products = [Product('P12', 1), Product('PP23', 2), Product('PP235', 1)]
+# print(ListServer(products).get_all_products(2))
+# print(products[1], products[2])
+serwer = MapServer(products)
+print(serwer.get_all_products(2))
