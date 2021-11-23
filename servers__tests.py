@@ -1,3 +1,4 @@
+#Grupa 1b: Bartoszewski (406690), Gakan (405922), Buryło (407192)
 import unittest
 from collections import Counter
 
@@ -58,3 +59,4 @@ class TestExceptionAndNoMatchingProducts(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+#Grupa 1b: Bartoszewski (406690), Gakan (405922), Buryło (407192)

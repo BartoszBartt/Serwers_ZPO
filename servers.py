@@ -1,3 +1,4 @@
+#Grupa 1b: Bartoszewski (406690), Gakan (405922), Buryło (407192)
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import re
@@ -110,3 +111,4 @@ class Client:
         for elem in entries:
             total_amount += elem.price
         return total_amount
+#Grupa 1b: Bartoszewski (406690), Gakan (405922), Buryło (407192)
