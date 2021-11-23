@@ -8,14 +8,14 @@ from typing import Optional, List, TypeVar, Dict
 
 class Product:
     def __init__(self, name: str, price: float):
-        if re.fullmatch('(?=.*?[0-9])(?=.*?[A-Za-z]).+', name):
+        if re.fullmatch('[a-zA-Z]+[0-9]+', name): #tutaj był bład
             self.name = name
             self.price = price
         else:
             raise ValueError
 
     def __eq__(self, other):
-        return self.price == other.price and self.name == other.name  # FIXME: zwróć odpowiednią wartość
+        return self.price == other.price and self.name == other.name
 
     def __hash__(self):
         return hash((self.name, self.price))
@@ -23,7 +23,6 @@ class Product:
 
 class ServerError(Exception):
     pass
-
 
 class TooManyProductsFoundError(ServerError):
     # Reprezentuje wyjątek związany ze znalezieniem zbyt dużej liczby produktów.
